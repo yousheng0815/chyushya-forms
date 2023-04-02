@@ -30,7 +30,7 @@ const Nav: FC<Props> = () => {
 
   return (
     <div className={styles.nav}>
-      <Menu>
+      <Menu autoSelect={false}>
         {({ isOpen }) => (
           <>
             <MenuButton
@@ -54,7 +54,7 @@ const Nav: FC<Props> = () => {
                           }.${Date.now()}`
                           setForms((forms) => [...forms, form56])
                         }}
-                        colorScheme="green"
+                        colorScheme="blue"
                       >
                         新增收款明細單
                       </Button>
@@ -80,7 +80,7 @@ const Nav: FC<Props> = () => {
         <Button onClick={() => window.print()}>列印</Button>
         <Button
           ref={btnRef}
-          colorScheme="teal"
+          colorScheme="blue"
           onClick={onOpen}
           as={IconButton}
           icon={

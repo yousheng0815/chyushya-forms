@@ -1,24 +1,33 @@
-.container {
+.layout {
   background-color: #eee;
-  padding-bottom: 4rem;
 
-  .a4 {
-    width: 210mm;
-    min-height: 297mm;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 5mm;
-    background-color: #fff;
+  .container {
+    padding: 4rem;
+    overflow-x: auto;
+
+    .a4 {
+      width: 210mm;
+      min-height: 297mm;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 5mm;
+      background-color: #fff;
+    }
   }
 
   @media print {
-    > *:not(.a4) {
+    > *:not(.container) {
       display: none;
     }
 
-    .a4 {
+    .container {
       padding: 0;
-      min-height: unset;
+      width: fit-content;
+
+      .a4 {
+        padding: 0;
+        min-height: unset;
+      }
     }
   }
 }

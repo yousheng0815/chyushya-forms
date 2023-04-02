@@ -5,10 +5,12 @@ import Content from "../Content"
 
 const Layout: FC = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.layout}>
       <Nav />
-      <div className={styles.a4}>
-        <Content />
+      <div className={styles.container}>
+        <div className={styles.a4}>
+          <Content />
+        </div>
       </div>
     </div>
   )
