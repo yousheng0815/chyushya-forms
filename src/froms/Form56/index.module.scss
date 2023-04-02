@@ -1,0 +1,49 @@
+.container {
+  font-size: 6.4mm;
+  font-family: 標楷體, DFKai-sb;
+
+  .header {
+    text-align: center;
+    padding-bottom: 2mm;
+
+    .h1 {
+      font-weight: 700;
+      letter-spacing: 1mm;
+      padding-bottom: 1mm;
+    }
+  }
+
+  .table {
+    border: 1px solid black;
+    line-height: 2.05;
+
+    .tr {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr;
+
+      div {
+        border-width: 1px;
+        border-color: black;
+        border-style: none solid solid none;
+        display: flex;
+        align-items: center;
+        padding: 0 2mm;
+
+        &:last-child {
+          border-right-style: none;
+        }
+
+        span {
+          flex: 1;
+        }
+      }
+
+      &:last-child {
+        div {
+          border-bottom-style: none;
+        }
+      }
+    }
+  }
+}

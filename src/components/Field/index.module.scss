@@ -1,0 +1,15 @@
+.field {
+  display: flex;
+  color: #00f;
+  min-width: 6mm;
+  padding: 1mm;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+
+  &.alignLeft {
+    justify-content: flex-start;
+    text-align: start;
+  }
+}
