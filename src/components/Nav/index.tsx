@@ -19,6 +19,7 @@ import {
 import { AppContext } from "../../contexts/AppContext"
 import Form56 from "../../froms/Form56"
 import FormConstruction from "../../froms/FormConstruction"
+import cx from "classnames"
 
 interface Props {}
 
@@ -26,7 +27,8 @@ const Nav: FC<Props> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef<HTMLButtonElement | null>(null)
 
-  const { menu, setMenu, forms, setForms } = useContext(AppContext)
+  const { menu, setMenu, formInfo, setFormInfo, setForms, a4 } =
+    useContext(AppContext)
 
   return (
     <div className={styles.nav}>
@@ -36,13 +38,23 @@ const Nav: FC<Props> = () => {
             <MenuButton
               isActive={isOpen}
               as={Button}
-              rightIcon={<div className={styles.chevronDown} />}
+              rightIcon={
+                <div
+                  className={cx(styles.chevronDown, {
+                    [styles.open]: isOpen,
+                  })}
+                />
+              }
             >
-              {forms[0]?.displayName?.split(".")[0] ?? ""}
+              {formInfo?.label}
             </MenuButton>
             <MenuList>
               <MenuItem
                 onClick={() => {
+                  setFormInfo({
+                    label: "收款明細單",
+                    saveAsName: "",
+                  })
                   setForms([Form56])
                   setMenu(
                     <>
@@ -66,6 +78,10 @@ const Nav: FC<Props> = () => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  setFormInfo({
+                    label: "施工單",
+                    saveAsName: "",
+                  })
                   setForms([FormConstruction])
                   setMenu(null)
                 }}
@@ -77,6 +93,42 @@ const Nav: FC<Props> = () => {
         )}
       </Menu>
       <div className={styles.menu}>
+        <Button
+          onClick={(e) => {
+            var element = document.createElement("a")
+            let content = `
+              <html>
+              <head>
+                ${Array.from(
+                  document.querySelectorAll<HTMLLinkElement>(
+                    'link[rel="stylesheet"]'
+                  )
+                )
+                  .map(
+                    (link) => `<link href="${link.href}" rel="stylesheet" />`
+                  )
+                  .join("")}
+              </head>
+              <body>
+                ${a4?.outerHTML ?? "(空白表單)"}
+              </body>
+              </html>`
+            element.setAttribute(
+              "href",
+              "data:text/html;charset=utf-8," + encodeURIComponent(content)
+            )
+            element.setAttribute(
+              "download",
+              `${formInfo?.label}(${formInfo?.saveAsName || "未命名"})_暫存.htm`
+            )
+            element.style.display = "none"
+            document.body.appendChild(element)
+            element.click()
+            document.body.removeChild(element)
+          }}
+        >
+          下載
+        </Button>
         <Button onClick={() => window.print()}>列印</Button>
         <Button
           ref={btnRef}

@@ -4,15 +4,6 @@
   .container {
     padding: 4rem;
     overflow-x: auto;
-
-    .a4 {
-      width: 210mm;
-      min-height: 297mm;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 5mm;
-      background-color: #fff;
-    }
   }
 
   @media print {
@@ -23,11 +14,20 @@
     .container {
       padding: 0;
       width: fit-content;
-
-      .a4 {
-        padding: 0;
-        min-height: unset;
-      }
     }
+  }
+}
+
+.a4 {
+  width: 210mm;
+  min-height: 297mm;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5mm;
+  background-color: #fff;
+
+  @media print {
+    padding: 0;
+    min-height: unset;
   }
 }

@@ -1,9 +1,13 @@
-import React, { FC } from "react"
+import React, { FC, useContext, useRef } from "react"
 import styles from "./index.module.scss"
 import cx from "classnames"
 import Field from "../../components/Field"
+import { AppContext } from "../../contexts/AppContext"
 
 const Form56: FC = () => {
+  const { setFormInfo } = useContext(AppContext)
+  const afterTaxRef = useRef<HTMLSpanElement | null>(null)
+
   return (
     <div className={cx(styles.container)}>
       <div className={styles.header}>
@@ -17,7 +21,19 @@ const Form56: FC = () => {
         >
           <div className={styles.text}>承租廠商</div>
           <div>
-            <Field />
+            <Field
+              alignLeft
+              onInput={(e) => {
+                const saveAsName = e.currentTarget.innerText
+                setFormInfo(
+                  (formInfo) =>
+                    formInfo && {
+                      ...formInfo,
+                      saveAsName,
+                    }
+                )
+              }}
+            />
           </div>
           <div className={styles.text}>經辦人</div>
           <div>
@@ -27,11 +43,11 @@ const Form56: FC = () => {
         <div className={styles.tr}>
           <div className={styles.text}>租借期間</div>
           <div>
-            <Field digit={4} />年<Field />月<Field />日<Field />
+            <Field digit={3} />年<Field />月<Field />日<Field digit={5} />
             時起至
-            <Field />年<Field />月<Field />日<Field />
+            <Field digit={3} />年<Field />月<Field />日<Field digit={5} />
             時止共
-            <Field />日
+            <Field digit={3} />日
           </div>
         </div>
         <div className={styles.tr}>
@@ -52,13 +68,25 @@ const Form56: FC = () => {
         >
           <div className={styles.text}>租借金額</div>
           <div>
-            <Field />
+            <Field
+              onBlur={(e) => {
+                const amount = Number(
+                  e.currentTarget.innerText.replace(/\D/g, "")
+                )
+                e.currentTarget.innerText = amount.toLocaleString("en-US")
+                if (afterTaxRef.current) {
+                  afterTaxRef.current.innerText = (
+                    amount * 1.05
+                  ).toLocaleString("en-US", { maximumFractionDigits: 0 })
+                }
+              }}
+            />
             (未稅)
           </div>
           <div className={styles.text}>租借金額</div>
           <div>
-            <Field />
-            (未稅)
+            <Field ref={afterTaxRef} />
+            (含稅)
           </div>
         </div>
       </div>
