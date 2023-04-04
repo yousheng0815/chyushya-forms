@@ -1,15 +1,44 @@
-import React, { FC, useContext, useRef } from "react"
+import React, { FC, useContext, useEffect, useState } from "react"
 import styles from "./index.module.scss"
 import cx from "classnames"
 import Field from "../../components/Field"
 import { AppContext } from "../../contexts/AppContext"
+import { CloseButton } from "@chakra-ui/close-button"
 
+const AFTER_TAX_CLASS_NAME = "afterTax"
 const Form56: FC = () => {
   const { setFormInfo } = useContext(AppContext)
-  const afterTaxRef = useRef<HTMLSpanElement | null>(null)
+
+  const [beforeTaxField, setBeforeTaxField] = useState<HTMLSpanElement | null>(
+    null
+  )
+  const [closeButRef, setCloseButRef] = useState<HTMLButtonElement | null>(null)
+  useEffect(() => {
+    if (!beforeTaxField || !closeButRef) return
+
+    // to support offline editing
+    beforeTaxField.setAttribute(
+      "onblur",
+      `
+        const amount = Number(this.innerText.replace(/\\D/g, ""))
+        this.innerText = amount.toLocaleString("en-US")
+        this.parentElement.parentElement.getElementsByClassName('${AFTER_TAX_CLASS_NAME}')[0].innerText =
+          (amount * 1.05).toLocaleString("en-US", { maximumFractionDigits: 0 })
+      `
+    )
+    closeButRef.setAttribute(
+      "onclick",
+      `
+        this.parentElement?.classList.toggle("${styles.hide}")
+    `
+    )
+  }, [beforeTaxField, closeButRef])
 
   return (
     <div className={cx(styles.container)}>
+      <CloseButton ref={setCloseButRef} className={styles.closeButton}>
+        &#x1F648;
+      </CloseButton>
       <div className={styles.header}>
         <div className={styles.h1}>佺詳電器企業有限公司</div>
         <div>收款明細單</div>
@@ -68,24 +97,12 @@ const Form56: FC = () => {
         >
           <div className={styles.text}>租借金額</div>
           <div>
-            <Field
-              onBlur={(e) => {
-                const amount = Number(
-                  e.currentTarget.innerText.replace(/\D/g, "")
-                )
-                e.currentTarget.innerText = amount.toLocaleString("en-US")
-                if (afterTaxRef.current) {
-                  afterTaxRef.current.innerText = (
-                    amount * 1.05
-                  ).toLocaleString("en-US", { maximumFractionDigits: 0 })
-                }
-              }}
-            />
+            <Field ref={setBeforeTaxField} />
             (未稅)
           </div>
           <div className={styles.text}>租借金額</div>
           <div>
-            <Field ref={afterTaxRef} />
+            <Field className={AFTER_TAX_CLASS_NAME} />
             (含稅)
           </div>
         </div>

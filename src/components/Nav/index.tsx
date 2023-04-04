@@ -55,23 +55,8 @@ const Nav: FC<Props> = () => {
                     label: "收款明細單",
                     saveAsName: "",
                   })
-                  setForms([Form56])
-                  setMenu(
-                    <>
-                      <Button
-                        onClick={() => {
-                          const form56: FC = Form56.bind(null)
-                          form56.displayName = `${
-                            Form56.displayName
-                          }.${Date.now()}`
-                          setForms((forms) => [...forms, form56])
-                        }}
-                        colorScheme="blue"
-                      >
-                        新增收款明細單
-                      </Button>
-                    </>
-                  )
+                  setForms([Form56, Form56, Form56])
+                  setMenu(<></>)
                 }}
               >
                 收款明細單

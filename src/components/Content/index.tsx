@@ -9,19 +9,7 @@ const Content: FC = () => {
   return (
     <div className={styles.container}>
       {forms.map((Form, i) => (
-        <div key={Form.displayName} className={styles.formContainer}>
-          {forms.length > 1 && (
-            <CloseButton
-              className={styles.closeButton}
-              onClick={() => {
-                setForms((forms) => {
-                  const newForms = [...forms]
-                  newForms.splice(i, 1)
-                  return newForms
-                })
-              }}
-            />
-          )}
+        <div key={i} className={styles.formContainer}>
           <Form />
         </div>
       ))}

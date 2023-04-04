@@ -2,6 +2,23 @@
   font-size: 6.4mm;
   font-family: 標楷體, DFKai-sb;
 
+  .closeButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-weight: 900;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  &.hide {
+    > :not(.closeButton) {
+      visibility: hidden;
+    }
+  }
+
   .header {
     text-align: center;
     padding-bottom: 2mm;

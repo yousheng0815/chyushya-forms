@@ -9,12 +9,12 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const Field = forwardRef<HTMLSpanElement, Props>(
-  ({ digit = 1, alignLeft, multiLine, ...rest }, ref) => {
+  ({ digit = 1, alignLeft, multiLine, className, ...rest }, ref) => {
     return (
       <span
         ref={ref}
         contentEditable
-        className={cx(styles.field, {
+        className={cx(styles.field, className, {
           [styles.alignLeft]: alignLeft,
           [styles.multiLine]: multiLine,
         })}
